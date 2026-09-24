@@ -4,42 +4,40 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-
     public Rigidbody2D rb;
-
     public float jumpForce;
-    
-    //InputAction jumpAction;
-    //InputAction moveAction;
+
     Vector2 input;
 
-    void Start()
-    {
-        //moveAction = InputSystem.actions.FindAction("Move");
-    }
-
-    //private void FixedUpdate()
-    //{
-    //    input = moveAction.ReadValue<Vector2>();
-    //}
+    [Header("Ground Check")]
+    public Transform groundCheckPoint;
+    public float rayLength = 0.1f;
+    public LayerMask groundLayer;
+    private bool isGrounded;
 
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (context.canceled) return;
+        if (!isGrounded) return;
 
-        rb.AddForce(Vector2.up * jumpForce * Time.fixedDeltaTime, ForceMode2D.Impulse);   
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         Debug.Log("Jumping");
-        // TODO: JUMP
     }
 
     public void MoveInput(InputAction.CallbackContext context)
     {
         input = context.ReadValue<Vector2>();
-        Debug.Log($"Move input: {input}");
     }
 
     void Update()
     {
-        transform.Translate(input * moveSpeed * Time.deltaTime);
+        isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, rayLength, groundLayer);
+        Debug.DrawRay(groundCheckPoint.position, Vector2.down * rayLength, isGrounded ? Color.green : Color.red);
+    }
+
+    void FixedUpdate()
+    {
+        // Only touch horizontal velocity — leave vertical (gravity/jump) untouched
+        rb.linearVelocity = new Vector2(input.x * moveSpeed, rb.linearVelocity.y);
     }
 }
