@@ -33,6 +33,20 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, rayLength, groundLayer);
         Debug.DrawRay(groundCheckPoint.position, Vector2.down * rayLength, isGrounded ? Color.green : Color.red);
+
+        Flip();
+    }
+
+    void Flip()
+    {
+        if (input.x > 0)
+        {
+            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
+        }
+        else if (input.x < 0)
+        {
+            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     void FixedUpdate()
