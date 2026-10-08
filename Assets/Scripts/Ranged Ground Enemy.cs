@@ -8,25 +8,25 @@ public class RangedGroundEnemy : MonoBehaviour
     public Rigidbody2D rb;
 
     [Header("Movement")]
-    public float moveSpeed = 2f;
-    private int facingDirection = -1; // -1 = facing left, 1 = facing right (set based on sprite's default facing)
+    public float moveSpeed;
+    private int facingDirection; // -1 = facing left, 1 = facing right (set based on sprite's default facing)
 
     [Header("GroundCheck")]
     public Transform groundCheckPoint;
-    public float groundCheckDistance = 0.2f;
+    public float groundCheckDistance;
     public LayerMask groundLayer;
 
     [Header("LedgeCheck")]
     public Transform ledgeCheckPoint;
-    public float ledgeCheckDistance = 0.3f;
+    public float ledgeCheckDistance;
 
     [Header("Attack")]
-    public float stopDistance = 4f; // How close the enemy gets before stopping to shoot
-    public float attackCooldown = 2f;
+    public float stopDistance; // How close the enemy gets before stopping to shoot
+    public float attackCooldown;
     private float attackTimer;
     public GameObject projectilePrefab;
     public Transform firePoint; // Where the projectile spawns
-    public float projectileSpeed = 8f;
+    public float projectileSpeed;
 
     private void Update()
     {
@@ -117,10 +117,28 @@ public class RangedGroundEnemy : MonoBehaviour
         Vector2 directionToPlayer = (player.position - firePoint.position).normalized;
 
         // Pass the information and speed to the projectile script
-       // EnemyProjectileScript projectileScript = projectile.GetComponent<EnemyProjectileScript>();
-       // projectileScript.SetDirection(directionToPlayer, projectileSpeed);
+        EnemyProjectileScript projectileScript = projectile.GetComponent<EnemyProjectileScript>();
+        projectileScript.SetDirection(directionToPlayer, projectileSpeed);
     }
 
 
+    // Lets me see the checks and enemy range
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheckPoint != null)
+        {
+            Gizmos.color = Color.orange;
+            Gizmos.DrawLine(groundCheckPoint.position, groundCheckPoint.position + Vector3.down * groundCheckDistance);
+        }
+
+        if (ledgeCheckPoint != null)
+        {
+            Gizmos.color = Color.teal;
+            Gizmos.DrawLine(ledgeCheckPoint.position, ledgeCheckPoint.position + Vector3.down * ledgeCheckDistance);
+        }
+
+        Gizmos.color = Color.yellowGreen;
+        Gizmos.DrawWireSphere(transform.position, stopDistance);
+    }
 
 }

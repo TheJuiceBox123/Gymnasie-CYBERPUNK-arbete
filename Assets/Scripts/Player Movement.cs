@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed;
     public Rigidbody2D rb;
     public float jumpForce;
 
@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     public Transform groundCheckPoint;
-    public float rayLength = 0.1f;
+    public float rayLength;
     public LayerMask groundLayer;
     private bool isGrounded;
 

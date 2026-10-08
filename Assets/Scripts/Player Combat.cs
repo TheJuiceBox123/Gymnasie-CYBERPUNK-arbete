@@ -5,11 +5,11 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Attack")]
     public Transform attackPoint;      // empty child positioned in front of the player
-    public float attackRange = 0.5f;
+    public float attackRange;
     public LayerMask enemyLayer;
-    public int attackDamage = 10;
+    public int attackDamage;
     public GameObject attackVisual; // The visual object that "flashes" during attack
-    public float flashDuration = 0.1f; // How long the "flash" object is visible
+    public float flashDuration; // How long the "flash" object is visible
 
     public void AttackInput(InputAction.CallbackContext context)
     {
