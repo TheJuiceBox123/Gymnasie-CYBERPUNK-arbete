@@ -9,7 +9,8 @@ public class RangedGroundEnemy : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-    private int facingDirection; // -1 = facing left, 1 = facing right (set based on sprite's default facing)
+    [Range(float.Epsilon, 1)] public float moveRampUpSpeed; // Decides how fast the enemy gets up to speed
+    private int facingDirection = -1; // -1 = facing left, 1 = facing right (set based on sprite's default facing)
 
     [Header("GroundCheck")]
     public Transform groundCheckPoint;
@@ -28,13 +29,21 @@ public class RangedGroundEnemy : MonoBehaviour
     public Transform firePoint; // Where the projectile spawns
     public float projectileSpeed;
 
+    [Header("Debug")]
+    [SerializeField] bool Debug_isGrounded;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     private void Update()
     {
         // Decides whether to walk toward the player or stop and shoot
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         // Ground checken
-        bool isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckDistance, groundLayer);
+        bool isGrounded = Debug_isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckDistance, groundLayer);
 
         // Ledge checken
         bool ledgeAhead = !Physics2D.Raycast(ledgeCheckPoint.position, Vector2.down, ledgeCheckDistance, groundLayer);
@@ -50,6 +59,7 @@ public class RangedGroundEnemy : MonoBehaviour
         {
             // Player is far away enough
             Walk();
+
         }
         else
         {
@@ -66,9 +76,10 @@ public class RangedGroundEnemy : MonoBehaviour
 
     void Walk()
     {
-        // Move in the direction enemy is facing
+        // Move in the direction enemy is facing and lets the enemy "ramp up" instead of just snapping to its speed
         // (Undviker samma misstag som innan genom att inte röra rb.lineraVelocity.y så gravitation funkar)
-        rb.linearVelocity = new Vector2(facingDirection * moveSpeed, rb.linearVelocity.y);
+        Vector2 newVelocity = Vector2.Lerp(rb.linearVelocity, new Vector2(facingDirection * moveSpeed, rb.linearVelocity.y), moveRampUpSpeed);
+        rb.linearVelocity = new Vector2(newVelocity.x, rb.linearVelocityY);
     }
 
     void FacePlayer()

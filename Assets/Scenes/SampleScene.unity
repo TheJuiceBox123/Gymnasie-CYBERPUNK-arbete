@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc02b8bdffa0fd488c8bf3f6e667842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 20
+  moveSpeed: 15
   rb: {fileID: 584217010}
   jumpForce: 12
   groundCheckPoint: {fileID: 1719066494}
@@ -1345,7 +1345,7 @@ Transform:
   m_GameObject: {fileID: 1456177658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.18, z: 0}
+  m_LocalPosition: {x: 0.11, y: -0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1384,8 +1384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedGroundEnemy
   player: {fileID: 584217013}
-  rb: {fileID: 1653801978}
-  moveSpeed: 10
+  rb: {fileID: 0}
+  moveSpeed: 5
+  moveRampUpSpeed: 0.018
   groundCheckPoint: {fileID: 1456177659}
   groundCheckDistance: 0.3
   groundLayer:
@@ -1397,7 +1398,8 @@ MonoBehaviour:
   attackCooldown: 1
   projectilePrefab: {fileID: 801670516968677274, guid: 2d1f283971d34b241b59f159f3c99556, type: 3}
   firePoint: {fileID: 2021525897}
-  projectileSpeed: 2
+  projectileSpeed: 20
+  Debug_isGrounded: 0
 --- !u!60 &1653801977
 PolygonCollider2D:
   m_ObjectHideFlags: 0
