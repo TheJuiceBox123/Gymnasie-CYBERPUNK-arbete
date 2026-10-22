@@ -28,6 +28,7 @@ public class RangedGroundEnemy : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform firePoint; // Where the projectile spawns
     public float projectileSpeed;
+    public int projectileDamage;
 
     [Header("Debug")]
     [SerializeField] bool Debug_isGrounded;
@@ -130,6 +131,7 @@ public class RangedGroundEnemy : MonoBehaviour
         // Pass the information and speed to the projectile script
         EnemyProjectileScript projectileScript = projectile.GetComponent<EnemyProjectileScript>();
         projectileScript.SetDirection(directionToPlayer, projectileSpeed);
+        projectileScript.damage = projectileDamage;
     }
 
 

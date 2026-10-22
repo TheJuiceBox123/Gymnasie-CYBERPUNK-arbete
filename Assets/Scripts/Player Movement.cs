@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     private bool isGrounded;
 
+    [Header("Knockback")]
+    private bool isKnockedBack = false;
+    public float knockbackDuration;
+
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (context.canceled) return;
@@ -51,7 +55,21 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isKnockedBack) return;
+
         // Only touch horizontal velocity — leave vertical (gravity/jump) untouched
         rb.linearVelocity = new Vector2(input.x * moveSpeed, rb.linearVelocity.y);
+    }
+
+    public void SetKnockedBack(float duration)
+    {
+        StartCoroutine(KnockbackRoutine(duration));
+    }
+
+    System.Collections.IEnumerator KnockbackRoutine(float duration)
+    {
+        isKnockedBack = true;
+        yield return new WaitForSeconds(duration);
+        isKnockedBack = false;
     }
 }

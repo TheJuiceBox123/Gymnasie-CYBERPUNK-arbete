@@ -485,6 +485,7 @@ GameObject:
   - component: {fileID: 584217014}
   - component: {fileID: 584217015}
   - component: {fileID: 584217017}
+  - component: {fileID: 584217018}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -653,6 +654,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  knockbackDuration: 1
 --- !u!114 &584217015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,9 +814,23 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
-  attackDamage: 10
+  attackDamage: 0
   attackVisual: {fileID: 1397617110}
   flashDuration: 0.1
+  knockbackForce: 30
+--- !u!114 &584217018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584217009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25583cb120f6b34d8092365a2c91d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHP: 100
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,7 +1380,8 @@ GameObject:
   - component: {fileID: 1653801978}
   - component: {fileID: 1653801977}
   - component: {fileID: 1653801976}
-  m_Layer: 0
+  - component: {fileID: 1653801981}
+  m_Layer: 3
   m_Name: GroundRangedEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1399,6 +1416,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 801670516968677274, guid: 2d1f283971d34b241b59f159f3c99556, type: 3}
   firePoint: {fileID: 2021525897}
   projectileSpeed: 20
+  projectileDamage: 0
   Debug_isGrounded: 0
 --- !u!60 &1653801977
 PolygonCollider2D:
@@ -1555,6 +1573,19 @@ Transform:
   - {fileID: 2021525897}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1653801981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653801975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25583cb120f6b34d8092365a2c91d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHP: 40
 --- !u!1 &1713467456
 GameObject:
   m_ObjectHideFlags: 0

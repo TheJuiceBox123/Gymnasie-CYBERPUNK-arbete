@@ -10,6 +10,7 @@ public class PlayerCombat : MonoBehaviour
     public int attackDamage;
     public GameObject attackVisual; // The visual object that "flashes" during attack
     public float flashDuration; // How long the "flash" object is visible
+    public float knockbackForce;
 
     public void AttackInput(InputAction.CallbackContext context)
     {
@@ -28,6 +29,12 @@ public class PlayerCombat : MonoBehaviour
         {
             Debug.Log("Hit: " + enemy.name);
             // enemy.GetComponent<EnemyHealth>()?.TakeDamage(attackDamage);
+
+            Health enemyHealth = enemy.GetComponent<Health>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(attackDamage, attackPoint.position, knockbackForce);
+            }
         }
 
         StartCoroutine(FlashAttackVisual());

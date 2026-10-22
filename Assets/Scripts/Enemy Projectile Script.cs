@@ -7,6 +7,9 @@ public class EnemyProjectileScript : MonoBehaviour
 
     public float lifetime;
 
+    public int damage;
+    public float knockbackForce;
+
     public void SetDirection(Vector2 direction, float speed)
     {
         this.direction = direction;
@@ -29,6 +32,13 @@ public class EnemyProjectileScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Hit Player");
+
+            Health playerHealth = other.GetComponent<Health>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage, transform.position, knockbackForce);
+            }
+
             Destroy(gameObject);
         }
 
