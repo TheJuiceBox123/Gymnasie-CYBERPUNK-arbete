@@ -47,6 +47,12 @@ public class Health : MonoBehaviour
         {
             playerMovement.SetKnockedBack(0.2f);
         }
+
+        RangedGroundEnemy rangedGroundEnemy = GetComponent<RangedGroundEnemy>();
+        if (rangedGroundEnemy != null)
+        {
+            rangedGroundEnemy.SetKnockedBack(0.2f);
+        }
     }
 
     void Die()
@@ -54,4 +60,5 @@ public class Health : MonoBehaviour
         Debug.Log("{gameObject.name} died");
         Destroy(gameObject);
     }
+
 }

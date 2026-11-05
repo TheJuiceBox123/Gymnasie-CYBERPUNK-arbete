@@ -14,6 +14,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void AttackInput(InputAction.CallbackContext context)
     {
+        if (Time.timeScale == 0f) return;
+
         if (!context.performed) return; // fires once on key press
 
         Attack();

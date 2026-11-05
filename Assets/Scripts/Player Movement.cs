@@ -19,8 +19,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isKnockedBack = false;
     public float knockbackDuration;
 
+    private Inetractable nearbyInteractable;
+
     public void JumpInput(InputAction.CallbackContext context)
     {
+        if (Time.timeScale == 0f) return;
+
         if (context.canceled) return;
         if (!isGrounded) return;
 
@@ -71,5 +75,26 @@ public class PlayerMovement : MonoBehaviour
         isKnockedBack = true;
         yield return new WaitForSeconds(duration);
         isKnockedBack = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Inetractable interactable = other.GetComponent<Inetractable>();
+        if (interactable != null) nearbyInteractable = interactable;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<Inetractable>() == nearbyInteractable)
+            nearbyInteractable = null;
+    }
+
+    public void InteractInput(InputAction.CallbackContext context)
+    {
+        if (Time.timeScale == 0f) return; // ignore while paused
+        if (!context.performed) return;
+
+        if (nearbyInteractable != null) nearbyInteractable.Interact();
+
     }
 }

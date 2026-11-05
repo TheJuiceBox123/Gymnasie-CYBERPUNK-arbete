@@ -29,6 +29,7 @@ public class RangedGroundEnemy : MonoBehaviour
     public Transform firePoint; // Where the projectile spawns
     public float projectileSpeed;
     public int projectileDamage;
+    private bool isKnockedBack = false;
 
     [Header("Debug")]
     [SerializeField] bool Debug_isGrounded;
@@ -40,6 +41,9 @@ public class RangedGroundEnemy : MonoBehaviour
 
     private void Update()
     {
+        // Ignores movement stuff when knocked back
+        if (isKnockedBack) return;
+
         // Decides whether to walk toward the player or stop and shoot
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -152,6 +156,18 @@ public class RangedGroundEnemy : MonoBehaviour
 
         Gizmos.color = Color.yellowGreen;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
+    }
+
+    public void SetKnockedBack(float duration)
+    {
+        StartCoroutine(KnockbackRoutine(duration));
+    }
+
+    System.Collections.IEnumerator KnockbackRoutine(float duration)
+    {
+        isKnockedBack = true;
+        yield return new WaitForSeconds(duration);
+        isKnockedBack = false;
     }
 
 }
