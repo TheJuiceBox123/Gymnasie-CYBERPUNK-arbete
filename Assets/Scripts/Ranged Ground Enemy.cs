@@ -37,6 +37,8 @@ public class RangedGroundEnemy : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()

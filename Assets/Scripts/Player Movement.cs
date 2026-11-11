@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+
     public float moveSpeed;
     public Rigidbody2D rb;
     public float jumpForce;
@@ -77,10 +78,12 @@ public class PlayerMovement : MonoBehaviour
         isKnockedBack = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+    void OnTriggerEnter2D(Collider2D other)
     {
         Inetractable interactable = other.GetComponent<Inetractable>();
         if (interactable != null) nearbyInteractable = interactable;
+        Debug.Log("Entered trigger: " + other.name);
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -91,10 +94,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void InteractInput(InputAction.CallbackContext context)
     {
-        if (Time.timeScale == 0f) return; // ignore while paused
+        Debug.Log($"Interact phase: {context.phase}, timeScale: {Time.timeScale}, nearby: {nearbyInteractable}");
+
+        if (Time.timeScale == 0f) return;
         if (!context.performed) return;
 
+        Debug.Log("Calling Interact on " + nearbyInteractable);
         if (nearbyInteractable != null) nearbyInteractable.Interact();
-
     }
 }
