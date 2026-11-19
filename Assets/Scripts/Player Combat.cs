@@ -5,7 +5,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Attack")]
     public Transform attackPoint;      // empty child positioned in front of the player
-    public float attackRange;
+    public Vector2 attackSize = new Vector2(1.5f, 0.8f); // width, height
     public LayerMask enemyLayer;
     public int attackDamage;
     public GameObject attackVisual; // The visual object that "flashes" during attack
@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
     {
         Debug.Log("Attack");
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackPoint.position, attackSize, 0f, enemyLayer);
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -55,6 +55,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (attackPoint == null) return;
         Gizmos.color = Color.purple;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireCube(attackPoint.position, attackSize);
     }
 }
